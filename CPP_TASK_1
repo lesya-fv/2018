@@ -1,0 +1,56 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+// Я знаю, что это плохая строка, но пока я могу только так(
+
+int main()
+{
+  float a, b, c;
+  float sol, sol0;
+  cout << "enter the coefficients " << "\n";
+  cin >> a >> b >> c;
+  
+  if (a == 0)
+  {
+      if (b == 0)
+      {
+          if (c == 0)
+          {
+              cout << "infinitely many solutions " << "\n";
+          }
+          else
+          {
+              cout << "no solutions " << "\n";
+          }
+      }
+      else
+      {
+          sol = -c/b;
+          cout << "Solution: " << sol << "\n";
+      }
+  }
+  else
+  {
+      float d = pow(b,2) - 4*a*c;
+  
+      if (d >= 0)
+      {
+          d = sqrt(d);
+          if (d != 0)
+          {
+              sol = (-b - d)/2/a;
+              sol0 = (-b + d)/2/a;
+              cout << "Solutions: " << sol << " and " << sol0 << "\n";
+          }
+          else
+          {
+            sol = -b/2/a;
+            cout << "Solution: " << sol << "\n";
+          }
+      }
+      else
+      {
+      cout << "No solutions" << "!\n";
+      }
+  }
+}
