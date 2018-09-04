@@ -1,0 +1,66 @@
+#include <iostream>
+#include <math.h>
+
+// using namespace std больше нет, переменные названы нормально и инициализируются сразу после объявления
+
+// Функция is_float_0 возвращает положительное значение, если переменная float близка к 0 (-0, 0, +0)
+
+bool is_float_0(float x)
+{
+    if (x < 0.000001 && x >= 0)
+        return true;
+    if (x > -0.00001 && x <= 0)
+        return true;
+    else
+        return false;
+}
+
+int main()
+{
+  float a, b, c;
+  float solution_1 = 0, solution_2 = 0;
+  std::cout << "enter the coefficients " << std::endl;
+  std::cin >> a >> b >> c;
+  
+  if (is_float_0(a) == true)
+  {
+      if (is_float_0(b) == true)
+      {
+          if (is_float_0(c) == true)
+          {
+              std::cout << "infinitely many solutions " << std::endl;
+          }
+          else
+          {
+              std::cout << "no solutions " << std::endl;
+          }
+      }
+      else
+      {
+          solution_1 = -c/b;
+          std::cout << "solution: " << solution_1 << std::endl;
+      }
+  }
+  else
+  {
+      float d = pow(b,2) - 4*a*c;
+  
+      if (d > 0)
+      {
+          d = sqrt(d);
+          if (is_float_0(d) == false)
+          {
+              solution_1 = (-b - d)/2/a;
+              solution_2 = (-b + d)/2/a;
+              std::cout << "solutions: " << solution_1 << " and " << solution_2 << std::endl;
+          }
+          else
+          {
+            solution_1 = -b/2/a;
+            std::cout << "solution: " << solution_1 << std::endl;
+          }
+      }
+      else
+        std::cout << "no solutions" << std::endl;
+  }
+}
