@@ -1,0 +1,17 @@
+def dfs(vertex, graph, used = None):# Depth-first search
+    if used is None:
+        used = set()
+        used.add(vertex)
+        for neighbour in graph[vertex]:
+            if neighbour not in used:
+                dfs(neighbour, graph, used)
+
+graph = read_graph_as_lists()
+used = set()
+number_of_components = 0
+for vertex in range(len(graph)):
+    if vertex not in used:
+        dfs(vertex, graph, used)
+        number_of_components += 1
+                    
+print(number_of_components)
