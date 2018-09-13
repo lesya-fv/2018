@@ -1,0 +1,102 @@
+// Задание на 15.09 (Федотова Леся, гр. 743)
+
+#include <iostream>
+#include <math.h>
+#include <string>
+
+std::string method = "do_nothing"; // Метод решения уравнения по умолчанию
+std::string solutions_number = "no "; // Количество решений по умолчанию
+    
+float discriminant_count(float a, float b, float c)
+    {
+    float discriminant = pow(b,2) - 4*a*c;
+    return discriminant;
+    }
+    
+std::string how_many_solutions(float a, float b, float c) // Считаем количество решений и задаём метод решения в зависимости от типа уравнения
+    {
+    if (abs(a) < 0.000001)
+        {
+        if (abs(b) < 0.000001)
+            {
+            if (abs(c) < 0.000001)
+                {
+                solutions_number = "infinitely many ";
+                }
+            }
+        else
+            {
+            solutions_number = "1 ";
+            method = "linear_equation";
+            }
+        }
+    else
+        {
+        float discriminant = discriminant_count(a, b, c);
+        if (discriminant > 0)
+            {
+            method = "square_equation";
+            if (abs(discriminant) > 0.000001)    
+                solutions_number = "2 ";
+            }
+            else
+                solutions_number = "1 ";
+        }
+    return solutions_number;
+    }
+
+float solve_linear_equation(float b, float c, float solution)
+    {
+    solution = -c/b;
+    return solution;
+    }
+    
+float solve_square_equation(float a, float b, float c, float signed_sqrt_discriminant, float solution)
+// Данная функция принимает на вход корень из дискриминанта со знаком + или - и выдает только одно значение х
+    {
+    solution = (-b + signed_sqrt_discriminant)/2/a;
+    return solution;
+    }
+    
+void print_results(std::string method, std::string solutions_number, float solution, float solution_2)
+// Вывод результатов: число корней и сами корни, если они есть
+    {
+    std::cout << "This equation has " << solutions_number << "solution(s) " << std::endl;
+    if (solutions_number == "1 " || solutions_number == "2 ")
+        std::cout << "x_1 = " << solution << std::endl;
+    if (solutions_number == "2 ")
+        std::cout << "x_2 = " << solution_2 << std::endl;
+    }
+
+int main()
+    {
+    float solution = 0; // Если уравнение не будет иметь решений, solution всё равно не напечатается
+    float solution_2 = 0;
+    /* Эта переменная может и не использоваться. Это очень плохо, я знаю
+       Проблема в том, чтобы печатать ровно столько корней, сколько получилось
+       А т.к. за число корней и их печать отвечают разные функции,
+       реализовать всё это нормально для меня оказалось слишком сложно ((
+     */
+     
+    float a, b, c;
+    std::cout << "enter the coefficients " << std::endl;
+    std::cin >> a >> b >> c;
+    
+    std::string solutions_number = how_many_solutions(a, b, c);
+    
+    if (method == "linear_equation")
+        solution = solve_linear_equation(b, c, solution);
+        
+    if (method == "square_equation")
+        {
+        float signed_sqrt_discriminant = sqrt(discriminant_count(a, b, c));
+        solution = solve_square_equation(a, b, c, signed_sqrt_discriminant, solution);
+        if (how_many_solutions(a, b, c) == "2")
+            {
+            signed_sqrt_discriminant *= (-1); // Посчитали х_1 как (-b + sqrt(D))/(2a), теперь считаем х_2 с -sqrt(D)
+            solution_2 == solve_square_equation(a, b, c, signed_sqrt_discriminant, solution_2); // C++ shell тоже не нравится solution_2
+            }
+        }
+        
+    print_results(method, solutions_number, solution, solution_2);
+    }
